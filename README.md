@@ -110,6 +110,13 @@ Updating the design and re-running the test makes the test pass.
 
 ![L1D1 corrected](https://user-images.githubusercontent.com/55652905/180154479-d5b3e80b-1926-4ba6-8647-e9b934147b34.JPG)
 
+# Verification Strategy
+
+The test bench was produced considering all the possible values of select line (sel) from 00000 (0) to 11110 (30) which selects the corresponding inputs from inp0 to inp30. At first all the input pins are made to set random values from 0 to 3 to ensure 2 bit inputs. After running the test it was observed trat 12 ,13 and 30 has failed. To ensure they failed random inputs in input pin 12 13 and 30 was removed and made fixed values to 2 , 3 and 1 respectively. the test still failed. After debugging I ran the test for 15 times a row and all the test "Passed"
+
+# Is the verification complete ?
+
+Yes the verification complete, All the test passed even in multiple times of running the python test bench, keeping in mind all the possible input combination has been checked generating the expected output results.
 
 
 
