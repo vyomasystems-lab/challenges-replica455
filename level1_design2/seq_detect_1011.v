@@ -25,10 +25,12 @@ module seq_detect_1011(seq_seen, inp_bit, reset, clk);
     if(reset)
     begin
       current_state <= IDLE;
+      
     end
     else
     begin
       current_state <= next_state;
+
     end
   end
 
@@ -46,7 +48,7 @@ module seq_detect_1011(seq_seen, inp_bit, reset, clk);
       SEQ_1:
       begin
         if(inp_bit == 1)
-          next_state = IDLE;
+          next_state = SEQ_1; // <-- for detecting 11011 ...
         else
           next_state = SEQ_10;
       end
@@ -55,18 +57,21 @@ module seq_detect_1011(seq_seen, inp_bit, reset, clk);
         if(inp_bit == 1)
           next_state = SEQ_101;
         else
-          next_state = IDLE;
+          next_state = IDLE;   // <-- not a bug but require to test for 1001011
       end
       SEQ_101:
       begin
         if(inp_bit == 1)
           next_state = SEQ_1011;
         else
-          next_state = IDLE;
+          next_state = SEQ_10;  // <-- specially for detecting 101011 ...
       end
       SEQ_1011:
       begin
-        next_state = IDLE;
+        if(inp_bit == 1)
+          next_state = SEQ_1; // <--specially for detecting 10111011 ...
+        else
+          next_state = SEQ_10; // <-- specially for detecting 1011011 ...
       end
     endcase
   end
