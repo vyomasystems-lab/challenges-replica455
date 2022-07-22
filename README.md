@@ -410,7 +410,7 @@ Rerunning all the test-
 
 # Verification Strategy
 
-First of all I made the State graph flow considering the buggy design and then the test bench was produced considering all the critical possible values of input sequence bit i.e. inp_bit {1011, 10111011, 1011011, 101011, 1001011, 11011, 001011} consisting of overlapping and non-overlapping sequence. Upon failing a test I revisitted the State graph and modifies the graph flow and also the verilog code logic corosponding to the graph modified graph. After failing consecutive 4 trst and modifying the graph flow and verilog code I finally arrive the point where all the test cases passed  
+First of all I made the State graph flow considering the buggy design and then the test bench was produced considering all the critical possible values of input sequence bit i.e. inp_bit {1011, 10111011, 1011011, 101011, 1001011, 11011, 001011} consisting of overlapping and non-overlapping sequence. Upon failing a test I revisitted the State graph and modifies the graph flow and also the verilog code logic corosponding to the graph modified graph. After failing consecutive 4 test and modifying the graph flow and verilog code I finally arrive the point where all the test cases passed  
 
 # Is the verification complete ?
 
