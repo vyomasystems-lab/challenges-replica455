@@ -255,6 +255,12 @@ assert dut.seq_seen.value == 1 , f"sequence is present but not detected {dut.seq
 AssertionError: sequence is present but not detected 0 != 1
 ```
 
+# Test Scenario
+
+
+![table](https://user-images.githubusercontent.com/55652905/180376388-6164add8-cdc7-41f3-87b8-9e6baf770135.JPG)
+
+Output(seq_seen) mismatches for the above inputs proving that there are design bugs.
 
 
 
