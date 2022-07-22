@@ -57,7 +57,7 @@ module seq_detect_1011(seq_seen, inp_bit, reset, clk);
         if(inp_bit == 1)
           next_state = SEQ_101;
         else
-          next_state = IDLE;   // <-- not a bug but require to test for 1001011
+          next_state = IDLE;   
       end
       SEQ_101:
       begin
