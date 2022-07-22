@@ -1,4 +1,4 @@
-# Level1_design1 Verification
+# ___Level1_design1 Verification___
 ### MUX Verification
 
 The verification environment is setup using Vyoma's UpTickPro provided for the hackathon.
@@ -117,6 +117,20 @@ The test bench was produced considering all the possible values of select line (
 # Is the verification complete ?
 
 Yes the verification complete, All the test passed even in multiple times of running the python test bench, keeping in mind all the possible input combination has been checked generating the expected output results.
+
+# ___Level1_design2 Verification___
+
+### 1011 Pattern detector verification
+
+The verification environment is setup using Vyoma's UpTickPro provided for the hackathon.
+
+![pattern detector](https://user-images.githubusercontent.com/55652905/180365748-ce900c1e-07aa-401a-af53-5901f8e4494c.JPG)
+
+# Verification Environment
+
+The CoCoTb based Python test is developed as explained.The test drives inputs to the Design Under Test (seq_detect_1011 module here) which takes in 1 bit input sequence (inp_bit), 1 bit reset , clock signal and produce output of high logic whenever complete "1011" sequence is encountered in the input bit 
+
+1. ___The sequence  to the input pin 12 (inp12 = 2) and corresponding select as 12 (sel = 12)___
 
 
 
