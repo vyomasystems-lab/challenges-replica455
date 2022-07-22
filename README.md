@@ -130,7 +130,131 @@ The verification environment is setup using Vyoma's UpTickPro provided for the h
 
 The CoCoTb based Python test is developed as explained.The test drives inputs to the Design Under Test (seq_detect_1011 module here) which takes in 1 bit input sequence (inp_bit), 1 bit reset , clock signal and produce output of high logic whenever complete "1011" sequence is encountered in the input bit 
 
-1. ___The sequence  to the input pin 12 (inp12 = 2) and corresponding select as 12 (sel = 12)___
+1. ___The sequence 101011 is applied to the input pin (inp_bit) ___
+
+```
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 0
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 0
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+```
+The assert statement is used for comparing the mux's outut to the expected value.
+
+The following error is seen:
+```
+assert dut.seq_seen.value == 1 , f"sequence is present but not detected {dut.seq_seen.value} != 1"
+AssertionError: sequence is present but not detected 0 != 1
+```
+
+2. ___The sequence 11011 is applied to the input pin (inp_bit) ___
+
+```
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 0
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    
+```
+The assert statement is used for comparing the mux's outut to the expected value.
+
+The following error is seen:
+```
+assert dut.seq_seen.value == 1 , f"sequence is present but not detected {dut.seq_seen.value} != 1"
+AssertionError: sequence is present but not detected 0 != 1
+```
+
+3. ___The sequence 1011011 is applied to the input pin (inp_bit) ___
+
+```
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 0
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 0
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+```
+The assert statement is used for comparing the mux's outut to the expected value.
+
+The following error is seen:
+```
+assert dut.seq_seen.value == 1 , f"sequence is present but not detected {dut.seq_seen.value} != 1"
+AssertionError: sequence is present but not detected 0 != 1
+```
+
+4. ___The sequence 10111011 is applied to the input pin (inp_bit) ___
+
+```
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 0
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 0
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+    
+    dut.inp_bit.value = 1
+    await FallingEdge(dut.clk)
+```
+The assert statement is used for comparing the mux's outut to the expected value.
+
+The following error is seen:
+```
+assert dut.seq_seen.value == 1 , f"sequence is present but not detected {dut.seq_seen.value} != 1"
+AssertionError: sequence is present but not detected 0 != 1
+```
+
 
 
 
