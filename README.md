@@ -262,6 +262,160 @@ AssertionError: sequence is present but not detected 0 != 1
 
 Output(seq_seen) mismatches for the above inputs proving that there are design bugs.
 
+# Design Bug
+
+Based on the above test input and analysing the design, we see the following
+
+```
+  // state transition based on the input and current state
+  always @(inp_bit or current_state)
+  begin
+    case(current_state)
+      IDLE:
+      begin
+        if(inp_bit == 1)
+          next_state = SEQ_1;
+        else
+          next_state = IDLE;
+      end
+      SEQ_1:
+      begin
+        if(inp_bit == 1)
+          next_state = IDLE;   // ==> 1 Bug - failing to detect 11011
+        else
+          next_state = SEQ_10;
+      end
+      SEQ_10:
+      begin
+        if(inp_bit == 1)
+          next_state = SEQ_101;
+        else
+          next_state = IDLE;
+      end
+      SEQ_101:
+      begin
+        if(inp_bit == 1)
+          next_state = SEQ_1011;  
+        else
+          next_state = IDLE;  // ==> 1 Bug - failing to detect 101011
+      end
+      SEQ_1011:
+      begin
+        next_state = IDLE;  // ==> 2 Bug - failing to detect 10111011 and 1011011
+      end
+    endcase
+  end
+endmodule
+```
+
+![10111011](https://user-images.githubusercontent.com/55652905/180379945-814a0646-06bf-4f6e-bc18-846fca72be3f.JPG)
+![11011](https://user-images.githubusercontent.com/55652905/180379955-2e800828-64bd-4703-a976-43547df877a3.JPG)
+![101011](https://user-images.githubusercontent.com/55652905/180379957-76357a31-28ec-4889-a46c-4a896571c32e.JPG)
+![1011011](https://user-images.githubusercontent.com/55652905/180379963-556b89b2-2cc5-4d83-a5f6-ef70afaaf058.JPG)
+
+# Design Fix
+
+
+![WhatsApp Image 2022-07-22 at 12 48 27 PM](https://user-images.githubusercontent.com/55652905/180385467-c8a1fcde-6cf7-4f87-a1e4-70f77b77c92d.jpeg)
+
+Updating the verilog design according to new state diagram.
+
+```
+// See LICENSE.vyoma for more details
+// Verilog module for Sequence detection: 1011
+module seq_detect_1011(seq_seen, inp_bit, reset, clk);
+
+  output seq_seen;
+  input inp_bit;
+  input reset;
+  input clk;
+
+  parameter IDLE = 0,
+            SEQ_1 = 1, 
+            SEQ_10 = 2,
+            SEQ_101 = 3,
+            SEQ_1011 = 4;
+
+  reg [2:0] current_state, next_state;
+
+  // if the current state of the FSM has the sequence 1011, then the output is
+  // high
+  assign seq_seen = current_state == SEQ_1011 ? 1 : 0;
+
+  // state transition
+  always @(posedge clk)
+  begin
+    if(reset)
+    begin
+      current_state <= IDLE;
+      
+    end
+    else
+    begin
+      current_state <= next_state;
+
+    end
+  end
+
+  // state transition based on the input and current state
+  always @(inp_bit or current_state)
+  begin
+    case(current_state)
+      IDLE:
+      begin
+        if(inp_bit == 1)
+          next_state = SEQ_1;
+        else
+          next_state = IDLE;
+      end
+      SEQ_1:
+      begin
+        if(inp_bit == 1)
+          next_state = SEQ_1; // <-- for detecting 11011 ...
+        else
+          next_state = SEQ_10;
+      end
+      SEQ_10:
+      begin
+        if(inp_bit == 1)
+          next_state = SEQ_101;
+        else
+          next_state = IDLE;   
+      end
+      SEQ_101:
+      begin
+        if(inp_bit == 1)
+          next_state = SEQ_1011;
+        else
+          next_state = SEQ_10;  // <-- specially for detecting 101011 ...
+      end
+      SEQ_1011:
+      begin
+        if(inp_bit == 1)
+          next_state = SEQ_1; // <--specially for detecting 10111011 ...
+        else
+          next_state = SEQ_10; // <-- specially for detecting 1011011 ...
+      end
+    endcase
+  end
+endmodule
+
+```
+
+Rerunning all the test-
+
+
+![allpass](https://user-images.githubusercontent.com/55652905/180380818-d77a6656-877e-4958-b861-890cc0550558.JPG)
+
+
+# Verification Strategy
+
+First of all I made the State graph flow considering the buggy design and then the test bench was produced considering all the critical possible values of input sequence bit i.e. inp_bit {1011, 10111011, 1011011, 101011, 1001011, 11011, 001011} consisting of overlapping and non-overlapping sequence. Upon failing a test I revisitted the State graph and modifies the graph flow and also the verilog code logic corosponding to the graph modified graph. After failing consecutive 4 trst and modifying the graph flow and verilog code I finally arrive the point where all the test cases passed  
+
+# Is the verification complete ?
+
+Yes the verification complete because the design is capturing all the overlapping and non-overlapping 1011 sequrnce and rejecting all other sequence.
+
 
 
 
