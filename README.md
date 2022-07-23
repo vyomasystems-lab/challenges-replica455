@@ -416,6 +416,37 @@ First of all I made the State graph flow considering the buggy design and then t
 
 Yes the verification complete because the design is capturing all the overlapping and non-overlapping 1011 sequrnce and rejecting all other sequence.
 
+# ___Level1_design1 Verification___
+### Bit Manupulation coprocessor
+
+# Verification Environment
+
+The CoCoTb based Python test is developed as explained.The test drives inputs to the Design Under Test (mux module here) which takes in 31 (each 2 bit) inpus (inp0 to inp30) and depending on the 5 bit select (sel) only one input is transmitted to 2 bit output (out).
+
+1. ___The ANDN operation___
+
+```
+ # input transaction
+    mav_putvalue_src1 = 0b00000000000000001010101010100000
+    mav_putvalue_src2 = 0b00000000000000000000000000000011
+    mav_putvalue_src3 = 0x0
+    mav_putvalue_instr =0b01000000000000000111000000110011
+```
+The assert statement is used for comparing the mux's outut to the expected value.
+
+The following error is seen:
+```
+assert dut_output == expected_mav_putvalue, error_message
+AssertionError: Value mismatch DUT = 0x1 does not match MODEL = 0x15541
+```
+
+# Test Scenario 
+
+- Test Inputs: src1 = 0b00000000000000001010101010100000_____src2=0b00000000000000000000000000000011______src3=0x0_______instr=0b01000000000000000111000000110011.
+- Expected Output: EXPECTED OUTPUT=0x15541
+- Observed Output: DUT OUTPUT=0x1
+
+Output mismatches for the above inputs proving that there is a design bug
 
 
 
