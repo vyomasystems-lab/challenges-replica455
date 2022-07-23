@@ -439,12 +439,30 @@ The following error is seen:
 assert dut_output == expected_mav_putvalue, error_message
 AssertionError: Value mismatch DUT = 0x1 does not match MODEL = 0x15541
 ```
+2. ___The ??? operation___
+
+```
+ # input transaction
+    mav_putvalue_src1 = 0b00000000000000001010101010100000
+    mav_putvalue_src2 = 0b00000000000000000000000000000011
+    mav_putvalue_src3 = 0x0
+    mav_putvalue_instr =0b01000000000000000111000000110011
+```
+The assert statement is used for comparing the mux's outut to the expected value.
+
+The following error is seen:
+```
+assert dut_output == expected_mav_putvalue, error_message
+AssertionError: Value mismatch DUT = 0x1 does not match MODEL = 0x15541
+```
 
 # Test Scenario 
-
+1. ANDN Operation
 - Test Inputs: src1 = 0b00000000000000001010101010100000_____src2=0b00000000000000000000000000000011______src3=0x0_______instr=0b01000000000000000111000000110011.
 - Expected Output: EXPECTED OUTPUT=0x15541
 - Observed Output: DUT OUTPUT=0x1
+
+2. ???? Operation 
 
 Output mismatches for the above inputs proving that there is a design bug
 
