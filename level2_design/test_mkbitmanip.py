@@ -20,7 +20,7 @@ def clock_gen(signal):
         signal.value <= 1
         yield Timer(1) 
 ####################################################################################################################
-################################____Self_Checking_TestBench____#####################################################
+################################____Self_Checking_TestBench_Method1____#############################################
 ####################################################################################################################
 
 """
@@ -105,7 +105,73 @@ def run_test_SAMPLE_EXAMPLE(dut):
         error_message = f'Value mismatch DUT = {hex(dut_output)} does not match MODEL = {hex(expected_mav_putvalue)}'            
         assert dut_output == expected_mav_putvalue, error_message
 
-"""      
+"""  
+"""
+####################################################################################################################
+################################____Self_Checking_TestBench_Method2____#############################################
+####################################################################################################################
+
+
+list_ins = [0b01000000000000000110000000110011,0b01100000000000000101000000010011,0b00100000000000000101000000010011,
+            0b01000000000000000100000000110011,0b00100000000000000001000000110011,0b00100000000000000101000000110011,
+            0b01100000000000000001000000110011,0b01100000000000000101000000110011,0b01001000000000000001000000110011,
+            0b00101000000000000001000000110011,0b01101000000000000001000000110011,0b01001000000000000101000000110011,
+            0b00101000000000000101000000110011,0b01101000000000000101000000110011,0b00100000000000000001000000010011,
+            0b01001000000000000001000000010011,0b00101000000000000001000000010011,0b01101000000000000001000000010011,
+            0b01001000000000000101000000010011,0b00101000000000000101000000010011,0b01101000000000000101000000010011,
+            0b00000110000000000001000000110011,0b00000110000000000101000000110011,0b00000100000000000001000000110011,
+            0b00000100000000000101000000110011,0b00000100000000000101000000010011,0b01000000000000000111000000110011]
+
+@cocotb.test()
+def run_test_SAMPLE_EXAMPLE(dut):
+    for i in list_ins:
+        # clock
+        cocotb.fork(clock_gen(dut.CLK))
+
+
+
+        # reset
+        dut.RST_N.value <= 0
+        yield Timer(10) 
+        dut.RST_N.value <= 1
+
+        mav_putvalue_instr = i
+
+        p = 0x11111100 # For full range put p = 0x00000000 and q = 0xFFFFFFFF
+        q = 0x111111FF
+
+        for r in range (p,q):
+            for s in range (p,q):
+                mav_putvalue_src1 = s
+                mav_putvalue_src2 = r
+                mav_putvalue_src3 = 0x0
+        
+
+                # expected output from the model
+                expected_mav_putvalue = bitmanip(mav_putvalue_instr, mav_putvalue_src1, mav_putvalue_src2, mav_putvalue_src3)
+
+                # driving the input transaction
+                dut.mav_putvalue_src1.value = mav_putvalue_src1
+                dut.mav_putvalue_src2.value = mav_putvalue_src2
+                dut.mav_putvalue_src3.value = mav_putvalue_src3
+                dut.EN_mav_putvalue.value = 1
+                dut.mav_putvalue_instr.value = mav_putvalue_instr
+  
+                yield Timer(1) 
+
+                # obtaining the output
+                dut_output = dut.mav_putvalue.value
+
+                cocotb.log.info(f'DUT OUTPUT={hex(dut_output)}')
+                cocotb.log.info(f'EXPECTED OUTPUT={hex(expected_mav_putvalue)}')
+                cocotb.log.info(f'DUT SRC1={hex(mav_putvalue_src1)}')
+                cocotb.log.info(f'DUT SRC2={hex(mav_putvalue_src2)}')
+
+                dut._log.info("instruction = %s",dut.mav_putvalue_instr.value)
+                error_message = f'Value mismatch DUT = {hex(dut_output)} does not match MODEL = {hex(expected_mav_putvalue)}'            
+                assert dut_output == expected_mav_putvalue, error_message
+""" 
+
 ####################################################################################################################
 ################################__Linear_Checking_TestBench____#####################################################
 ####################################################################################################################
