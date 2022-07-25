@@ -416,8 +416,13 @@ First of all I made the State graph flow considering the buggy design and then t
 
 Yes the verification complete because the design is capturing all the overlapping and non-overlapping 1011 sequrnce and rejecting all other sequence.
 
-# ___Level1_design1 Verification___
+# ___Level2_design Verification___
 ### Bit Manupulation coprocessor
+
+The verification environment is setup using Vyoma's UpTickPro provided for the hackathon.
+
+![processor](https://user-images.githubusercontent.com/55652905/180694971-916dcc69-4b12-4bfd-bfd5-52d04edd86ef.JPG)
+
 
 # Verification Environment
 
@@ -439,33 +444,26 @@ The following error is seen:
 assert dut_output == expected_mav_putvalue, error_message
 AssertionError: Value mismatch DUT = 0x1 does not match MODEL = 0x15541
 ```
-2. ___The ??? operation___
-
-```
- # input transaction
-    mav_putvalue_src1 = 0b00000000000000001010101010100000
-    mav_putvalue_src2 = 0b00000000000000000000000000000011
-    mav_putvalue_src3 = 0x0
-    mav_putvalue_instr =0b01000000000000000111000000110011
-```
-The assert statement is used for comparing the mux's outut to the expected value.
-
-The following error is seen:
-```
-assert dut_output == expected_mav_putvalue, error_message
-AssertionError: Value mismatch DUT = 0x1 does not match MODEL = 0x15541
-```
 
 # Test Scenario 
+
 1. ANDN Operation
-- Test Inputs: src1 = 0b00000000000000001010101010100000_____src2=0b00000000000000000000000000000011______src3=0x0_______instr=0b01000000000000000111000000110011.
+- Test Inputs: 
+1.   src1=0b00000000000000001010101010100000 
+2.  src2=0b00000000000000000000000000000011
+3. src3=0x0
+4.  instr=0b01000000000000000111000000110011.
 - Expected Output: EXPECTED OUTPUT=0x15541
 - Observed Output: DUT OUTPUT=0x1
 
-2. ???? Operation 
 
-Output mismatches for the above inputs proving that there is a design bug
+# Verification Strategy
 
+Particularly for Self chacking test bench(method 1) I made a list of instructions for verification and conducted the test imside the for loop so that each and every instructions added in the list are called for execution. Then in self checking test bench (method 2) I went further to provide a range of hexadecimal inputs. For a mear range of 00 to FF it took about 20 min. for the test. for range 00000000 to FFFFFFFF it will take eternity. Then there was Linear check which was quite simple. manually providing each and every instructions and inputs.
+
+# Is the verification complete ?
+
+Yes the verification complete, A wide range of test has been conducted out of which only 1 bug is detected.
 
 
 
