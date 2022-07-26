@@ -615,7 +615,7 @@ end
 
 endmodule 
 ```
-Rerunning all tae 4 test 
+Rerunning all the 4 test 
 
 ![pass22](https://user-images.githubusercontent.com/55652905/180927830-d55c377d-b723-44ce-95fc-7c397003b4cd.JPG)
 ![pass11](https://user-images.githubusercontent.com/55652905/180927843-8805c049-e49d-432a-8a2a-40175dfcc1d9.JPG)
