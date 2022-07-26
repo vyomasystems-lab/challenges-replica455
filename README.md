@@ -419,9 +419,9 @@ First of all I made the State graph flow considering the buggy design and then t
 
 Yes the verification complete because the design is capturing all the overlapping and non-overlapping 1011 sequrnce and rejecting all other sequence.
 
-# # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 # ___Level2_design Verification___
-# # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 ### Bit Manupulation coprocessor
 
 The verification environment is setup using Vyoma's UpTickPro provided for the hackathon.
