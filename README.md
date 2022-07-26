@@ -1,5 +1,7 @@
-# ___Level1_design1 Verification___
-### MUX Verification
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# ___Level1_design1 Verification___ 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+### MUX Verification 
 
 The verification environment is setup using Vyoma's UpTickPro provided for the hackathon.
 
@@ -117,10 +119,11 @@ The test bench was produced considering all the possible values of select line (
 # Is the verification complete ?
 
 Yes the verification complete, All the test passed even in multiple times of running the python test bench, keeping in mind all the possible input combination has been checked generating the expected output results.
-
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # ___Level1_design2 Verification___
-
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 ### 1011 Pattern detector verification
+
 
 The verification environment is setup using Vyoma's UpTickPro provided for the hackathon.
 
@@ -416,7 +419,9 @@ First of all I made the State graph flow considering the buggy design and then t
 
 Yes the verification complete because the design is capturing all the overlapping and non-overlapping 1011 sequrnce and rejecting all other sequence.
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # ___Level2_design Verification___
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 ### Bit Manupulation coprocessor
 
 The verification environment is setup using Vyoma's UpTickPro provided for the hackathon.
@@ -465,7 +470,9 @@ Particularly for Self chacking test bench(method 1) I made a list of instruction
 
 Yes the verification complete, A wide range of test has been conducted out of which only 1 bug is detected.
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # ___Level3_design Verification___
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 ### Synchronous FIFO buffer memory
 
 The verification environment is setup using Vyoma's UpTickPro provided for the hackathon.
